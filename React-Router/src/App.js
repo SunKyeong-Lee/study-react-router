@@ -6,8 +6,15 @@ import About from "./pages/About";
 import Test from "./pages/Test";
 import KoreanPage from "./pages/KoreanPage";
 import Notfound from "./pages/Notfound";
+import NumberId from "./pages/NumberId";
+import Number from "./pages/Number";
+import { useState } from "react";
+import Borad from "./pages/Board";
+import BoardId from "./pages/BoardId";
 
 function App() {
+  const [list, setList] = useState([1, 2, 3, 4, 5]);
+
   return (
     <div className="App">
       <h1>리액트라우터를 사용하게 된 것을 환영합니다</h1>
@@ -18,7 +25,17 @@ function App() {
         <Link to="/about">클릭하면 about으로 이동합니다</Link> <br />
         <a href='/about'>about - a태그는 새로고침이 일어납니다</a> <br />
 
-        <Link to='test'>test로 이동합니다</Link> <br />
+        <Link to='/test'>test로 이동합니다</Link> <br />
+
+        <Link to='/number'>Number로 이동합니다</Link> <br />
+        <Link to='/number/1'>NumberId 1</Link> <br />
+        <span>NumberId : </span>
+        {list.map((item) => (
+          <Link to={'/number/'+item}>{item}{" "}</Link> 
+        ))} 
+        <br />
+
+        <Link to='/board'>board로 이동합니다</Link>
       </div>
 
       {/* 주소마다 하나의 화면을 가지게 됨 */}
@@ -38,6 +55,15 @@ function App() {
 
         {/* :id는 변수이름 id를 갖는 값을 주소를 통해 전달할 수 있다.*/}
         {/* id 위치에 값을 적어주면 그 값이 id값과 같은 형태로 params에 전달 */}
+        <Route path="number" element={<Number />}>
+          {/* Outlet을 통해 그 공간에 NumberId를 출력한다 */}
+          {/* 중첩 : 페이지 안에 바뀌는 페이지가 있는 것 */}
+          <Route path=":id" element={<NumberId />} />
+        </Route>
+
+        <Route path='board' element={<Borad />}>
+          <Route path=':id' element={<BoardId />}/>
+        </Route>
       </Routes>
     </div>
   );
